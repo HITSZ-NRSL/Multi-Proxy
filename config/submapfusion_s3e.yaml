@@ -1,0 +1,70 @@
+multiProxy:
+    keyFrameParam:
+        max_keyframes: 10000 # 最大关键帧数
+        max_robots: 10 # 最大机器人数
+        rebuild_thres: -0.1 #重新建图的位姿优化距离误差阈值
+        time_th: 1 #产生描述子的最小时间间隔
+        distance_th: 1 #产生关键帧的最小距离间隔
+        angle_th: 0.5 #产生关键帧的最小角度间隔
+
+    STDParam:
+        # pre process
+        maximum_corner_num: 200   #最大提取特征点数量
+
+        # key points
+        plane_detection_thre: 0.006    #initplane,最小的特征值小于该值
+        plane_merge_normal_thre: 0.30 #融合阈值，法向量差
+        voxel_size: 2.5                 #体素块的体积边长
+        voxel_init_num: 15            #大于该值进行平面初始化
+        proj_image_resolution: 0.25   #每5x5映射分辨率，乘以1/solu，用于进行投影比较？？
+        proj_dis_min: 0
+        proj_dis_max: 2          #投影到平面最大距离
+        corner_thre: 10          #梯度大于某值
+
+        # std descriptor
+        descriptor_near_num: 20     #corner相邻的15个点
+        descriptor_min_len: 10      #大于三角形最短长度
+        descriptor_max_len: 80      #小于三角形最长长度
+        non_max_suppression_radius: 2  #非极大值抑制
+        std_side_resolution: 0.2      #乘以1/solu，分辨率就是最小单位计算
+
+        # candidate search
+        skip_near_num: 100           #当前帧与检验帧帧数差 大于一定帧数才能检测回环。
+        candidate_num: 50             #候选人数量
+        sub_frame_num: 10              #点云累计数量, 如果关键帧间距变小了，这个值也应该相应的增大，以确保尺度足够。
+        vertex_diff_threshold: 0.5      #小于该值算子最终匹配阈值
+        rough_dis_threshold: 0.012    #尺寸变化参数阈值等于它成，数据变动大可以用这个增加
+
+        # RTverify
+        RTthreshold: 3.0
+        maxvotethre: 10
+
+    interRobot:
+        #topic
+        local_odom_topic: "/mapping/odometry"
+        local_cloud_topic: "/deskew/cloud_deskewed"
+        #thres 建议 里程计 <= 内回环 < 对偶 < 机器人间回环
+        key_frame_only: true # 只使用关键帧进行回环检测
+        UWB_std: 1 # uwb的噪声
+        s2m_std: 0.01 # 地图节点的噪声
+        odom_std: 0.1 # 里程计的噪声
+        intra_loop_std: 0.1 # 内回环的噪声
+        inter_loop_std: 0.1 # 间回环的噪声
+        dual_std: 0.1 # 对偶因子的噪声
+        downsample_resolution_map: 0.5   # 下采样栅格大小 0.2
+        save_map_resolution: 0.05   # 下采样栅格大
+        loop_threshold: 0.2   # 描述子匹配阈值
+        pcm_threshold: 0.5   # PCM马氏距离阈值越小越严格 0.1 in subT
+        icp_threshold: 80    # icp匹配度评分越小越好
+        submap_filter_size: 30.0     # submap滤波大小
+        icp_disthr: 10.0     # icp距离阈值
+        icp_maxiter: 200    # icp最大迭代次数
+        loop_interval_threshold: 0.5 #frames
+        pcm_start_threshold: 3   # 5 for best result, 2 for work in harsh environment
+        pcm_max_clique_size: 3    # 3 for best result, 1 for work in harsh environment
+        dual_max_iters: 20 # 对偶优化最大迭代次数
+        dual_min_error: 0.005 # 对偶优化最小迭代误差
+        verification_points: 2000 # 回环检测原始点云下采样数
+
+        use_position_search: false #use position search may introduce more global loop closure, but spend more time for candidate checking
+        use_arock: true #use arock to do DPGO

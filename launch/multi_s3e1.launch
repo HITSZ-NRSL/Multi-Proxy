@@ -1,0 +1,24 @@
+<launch>
+    <arg name="rviz" default="true" />
+    <arg name="no"      default="1"/>
+    <arg name="project" default="multi_proxy"/>
+    <arg name="robot0"	default="robot_0"/>
+    <arg name="robot1"	default="robot_1"/>
+    <arg name="robot2"	default="robot_2"/>
+    <arg name="bag_time"	default="true"/>
+
+    <!-- 先运行删除文件的脚本 -->
+    <node name="delete_file_node" pkg="multi_proxy" type="deletpcd.sh" output="screen" />
+
+    <!-- Parameters -->
+    <rosparam file="$(find multi_proxy)/config/submapfusion_s3e.yaml" command="load"/>
+
+    <!--- LOAM robot 1 -->
+    <node pkg="$(arg project)" type="$(arg project)_node" name="$(arg project)_subMapFusion_$(arg robot1)"   output="screen"     respawn="false">
+        <param name="/robot_name"          type="string" value = "$(arg robot1)"/>
+        <param name="/robot_id"              type="int" value = "1"  />
+        <param name="/use_bag_time"              type="bool" value = "$(arg bag_time)"  />
+        <param name="/pcm_matrix_folder" type="string" value="$(find multi_proxy)/log/pcm_matrix"/>
+    </node>
+
+</launch>

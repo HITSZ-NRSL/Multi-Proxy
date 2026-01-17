@@ -1,0 +1,91 @@
+version: '3.0'
+
+services:
+  multi-proxy0:
+    container_name: multi-proxy0
+    image: sylaranh/multi-proxy:latest
+    restart: on-failure
+    stdin_open: true
+    tty: true
+    cap_add:
+      - NET_ADMIN
+    extra_hosts:
+      - "jcwang:172.17.0.1"
+      - "multi0:172.0.0.2"
+      - "multi1:172.0.0.3"
+      - "multi2:172.0.0.4"
+    networks:
+      my_network:
+        ipv4_address: 172.0.0.2
+    volumes:
+      - ./tmp/build/:/ws_code/build/
+      - ./tmp/devel/:/ws_code/devel/
+      - ./net_work_loss_robot_0.sh:/script/net_work_loss_robot_0.sh
+      - ./../../multi_proxy:/ws_code/src/multi_proxy/
+    environment:
+      - ROS_HOSTNAME=multi0
+      - ROS_MASTER_URI=http://172.17.0.1:11311
+      - ROS_IP=172.0.0.2                     # 使用容器 IP
+    command: /bin/bash -c "bash /script/net_work_loss_robot_0.sh && bash "
+
+  multi-proxy1:
+    container_name: multi-proxy1
+    image: sylaranh/multi-proxy:latest
+    restart: on-failure
+    stdin_open: true
+    tty: true
+    cap_add:
+      - NET_ADMIN
+    extra_hosts:
+      - "jcwang:172.17.0.1"
+      - "multi0:172.0.0.2"
+      - "multi1:172.0.0.3"
+      - "multi2:172.0.0.4"
+    networks:
+      my_network:
+        ipv4_address: 172.0.0.3
+    volumes:
+      - ./tmp/build/:/ws_code/build/
+      - ./tmp/devel/:/ws_code/devel/
+      - ./net_work_loss_robot_1.sh:/script/net_work_loss_robot_1.sh
+      - ./../../multi_proxy:/ws_code/src/multi_proxy/
+    environment:
+      - ROS_HOSTNAME=multi1
+      - ROS_MASTER_URI=http://172.17.0.1:11311
+      - ROS_IP=172.0.0.3                     # 使用容器 IP
+    command: /bin/bash -c "bash /script/net_work_loss_robot_1.sh && bash "
+    
+  multi-proxy2:
+    container_name: multi-proxy2
+    image: sylaranh/multi-proxy:latest
+    restart: on-failure
+    stdin_open: true
+    tty: true
+    cap_add:
+      - NET_ADMIN
+    extra_hosts:
+      - "jcwang:172.17.0.1"
+      - "multi0:172.0.0.2"
+      - "multi1:172.0.0.3"
+      - "multi2:172.0.0.4"
+    networks:
+      my_network:
+        ipv4_address: 172.0.0.4
+    volumes:
+      - ./tmp/build/:/ws_code/build/
+      - ./tmp/devel/:/ws_code/devel/
+      - ./net_work_loss_robot_2.sh:/script/net_work_loss_robot_2.sh
+      - ./../../multi_proxy:/ws_code/src/multi_proxy/
+    environment:
+      - ROS_HOSTNAME=multi2
+      - ROS_MASTER_URI=http://172.17.0.1:11311
+      - ROS_IP=172.0.0.4                     # 使用容器 IP
+    command: /bin/bash -c "bash /script/net_work_loss_robot_2.sh && bash "
+
+networks:
+  my_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.0.0.0/24

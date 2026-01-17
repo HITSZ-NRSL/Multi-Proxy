@@ -1,0 +1,9 @@
+<launch>
+    <arg name="rviz" default="true" />
+
+    <!--- Run Rviz-->
+    <group if="$(arg rviz)">
+        <node pkg="rviz" type="rviz" name="multi_proxy_rviz" respawn="true" args="-d $(dirname)/../config/rviz.rviz" />
+    </group>
+
+</launch>
