@@ -92,6 +92,23 @@ Play each robot’s dataset independently.
 Add robot name prefixes to the odometry and cloud topics.
 Merge all robots’ lio output into a single rosbag.
 
+## Citation
+If you find this work useful in your research, please consider citing:
+
+```bibtex
+@ARTICLE{11358654,
+  author={Wang, Jiancheng and Cai, Chenyuan and Tan, JinQian and Chen, Haoyao},
+  journal={IEEE Robotics and Automation Letters}, 
+  title={Communication-Robust Asynchronous Distributed LiDAR Collaborative Smoothing and Mapping}, 
+  year={2026},
+  volume={},
+  number={},
+  pages={1-8},
+  keywords={Robots;Collaboration;Optimization;Location awareness;Laser radar;Simultaneous localization and mapping;Robustness;Point cloud compression;Pipelines;Trajectory;C-LSLAM;Multi-Robot;Asynchronous;Distributed;Decentralized;Collaborative Localization},
+  doi={10.1109/LRA.2026.3655282}
+}
+```
+
 ## Status
 - 📄 Paper accepted
 - 🚧 Datasets is under preparation

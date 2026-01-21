@@ -44,7 +44,7 @@ void MultiProxyPipeline::paramLoader()
   // std config
   STDConfigSetting config_setting;
   read_std_parameters(node_handler, config_setting);
-  _detectorConfig.config_setting = config_setting;
+  _detector_config.config_setting = config_setting;
   ROS_INFO("[subMapFusion] Robot %d ready. use bag time? %d", _robot_id_th, _use_bag_time);
 }
 
@@ -158,7 +158,7 @@ void MultiProxyPipeline::initialization()
 void MultiProxyPipeline::allocateMemory()
 {
   _pc_manager = new pcManager();
-  _loop_detector = new LoopDetector(_detectorConfig);
+  _loop_detector = new LoopDetector(_detector_config);
   _multi_outlier_rejection = new MultiOutlierRejection();
   _back_end = new BackEnd(_robot_id_th, _max_keyframes, &_cur_info_list, &_ref_info_list);
 }
@@ -696,7 +696,7 @@ bool MultiProxyPipeline::isKeyframe(KeyFrame &descriptor_info)
   {
     if ((descriptor_info.time - last_key_time > _time_th &&
          descriptor_info.getPoseInit().distance(last_pose) > _distance_th) ||
-        descriptor_info.frame_id % _max_keyframes < _detectorConfig.config_setting.sub_frame_num_)
+        descriptor_info.frame_id % _max_keyframes < _detector_config.config_setting.sub_frame_num_)
     {
       descriptor_info.is_key_frame = true;
     }
@@ -725,7 +725,7 @@ void MultiProxyPipeline::buildDescriptor()
 {
   static int count = 0;
   Utility::TicToc t_std;
-  if (_cur_info_list.size() <= count + _detectorConfig.config_setting.sub_frame_num_ / 2)
+  if (_cur_info_list.size() <= count + _detector_config.config_setting.sub_frame_num_ / 2)
     return;
   t_std.tic();
   std::shared_ptr<KeyFrame> sc_current = _cur_info_list.at(count);
@@ -733,7 +733,7 @@ void MultiProxyPipeline::buildDescriptor()
   {
     pcl::PointCloud<PointType>::Ptr sub_map_temp(new pcl::PointCloud<PointType>());
     _cur_info_list.buildMapWrtLocalMap(sc_current->frame_id, sub_map_temp,
-                                       _detectorConfig.config_setting.sub_frame_num_);
+                                       _detector_config.config_setting.sub_frame_num_);
     _loop_detector->makeDescriptorsSTD(sub_map_temp, sc_current);
     sc_current->publishSTD(_pub_STD_current);
 
@@ -911,7 +911,7 @@ void MultiProxyPipeline::publishCandidateLoop(LoopClosure &loop, const RobotID &
 {
   std::shared_ptr<KeyFrame> first_frame = _cur_info_list.getKeyFrame(loop.c_frame_id);
   pcl::PointCloud<PointType>::Ptr sub_map_temp(new pcl::PointCloud<PointType>());
-  _cur_info_list.buildMapNB(first_frame->frame_id, sub_map_temp, _detectorConfig.config_setting.sub_frame_num_);
+  _cur_info_list.buildMapNB(first_frame->frame_id, sub_map_temp, _detector_config.config_setting.sub_frame_num_);
   _pc_manager->randomFilter(sub_map_temp, sub_map_temp, _verification_points);
   PointTypePose cur_p_wrt_ref_p;
   cur_p_wrt_ref_p.fromPose3(loop.pose);

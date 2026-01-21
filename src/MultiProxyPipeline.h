@@ -88,7 +88,7 @@ class MultiProxyPipeline
   std::unordered_map<int, DualFrameList> _dual_frames;
   std::unordered_map<int, std::vector<LoopClosure>> _loop_queue;
 
-  DetectorConfig _detectorConfig;
+  DetectorConfig _detector_config;
   pcManager *_pc_manager{};
   LoopDetector *_loop_detector{};
   MultiOutlierRejection *_multi_outlier_rejection{};
