@@ -92,6 +92,10 @@ Play each robot’s dataset independently.
 Add robot name prefixes to the odometry and cloud topics.
 Merge all robots’ lio output into a single rosbag.
 
+The [Multi-Robot Cloud Odometry Dataset](https://www.modelscope.cn/datasets/OpenMushroom/Multi_robot_cloud-odometry.git) is made available here for reference.
+It should be explicitly noted that this dataset is not an originally collected raw dataset. It is curated and reorganized based on the [S3E Dataset](https://github.com/DapengFeng/S3E.git), and structured with LiDAR point clouds and odometry outputs from [Co-LRIO](https://github.com/zhongshp/Co-LRIO.git) serving as the front-end of the LiDAR-Inertial Odometry (LIO) system.
+If you use this dataset in your research or academic publications, you are required to duly acknowledge both the original dataset and the relevant open-source projects.
+
 ## Citation
 If you find this work useful in your research, please consider citing:
 
@@ -101,14 +105,13 @@ If you find this work useful in your research, please consider citing:
   journal={IEEE Robotics and Automation Letters}, 
   title={Communication-Robust Asynchronous Distributed LiDAR Collaborative Smoothing and Mapping}, 
   year={2026},
-  volume={},
-  number={},
-  pages={1-8},
-  keywords={Robots;Collaboration;Optimization;Location awareness;Laser radar;Simultaneous localization and mapping;Robustness;Point cloud compression;Pipelines;Trajectory;C-LSLAM;Multi-Robot;Asynchronous;Distributed;Decentralized;Collaborative Localization},
+  volume={11},
+  number={3},
+  pages={3700-3707},
+  keywords={Robots;Collaboration;Optimization;Location awareness;Laser radar;Simultaneous localization and mapping;Robustness;Point cloud compression;Pipelines;Trajectory;C-LSLAM;multi-robot;asynchronous;distributed;decentralized;collaborative localization},
   doi={10.1109/LRA.2026.3655282}
 }
 ```
 
 ## Status
 - 📄 Paper accepted
-- 🚧 Datasets is under preparation
