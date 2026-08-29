@@ -1,8 +1,8 @@
 # multi-proxy
 
-This repository will host the official implementation of the paper:
+This repository will host the official implementation of the RA-L 2026 paper:
 
-**Communication-Robust Asynchronous Distributed LiDAR Collaborative Smoothing and Mapping**
+**Communication-Robust Asynchronous Distributed LiDAR Collaborative Smoothing and Mapping，[Paper](https://doi.org/10.1109/LRA.2026.3655282)**
 
 ## Overview
 `multi-proxy` focuses on communication-robust, asynchronous distributed and decentralized LiDAR collaborative smoothing and mapping.  
@@ -112,6 +112,3 @@ If you find this work useful in your research, please consider citing:
   doi={10.1109/LRA.2026.3655282}
 }
 ```
-
-## Status
-- 📄 Paper accepted
